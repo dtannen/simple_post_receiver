@@ -11,7 +11,8 @@ import (
 
 func ScheduleOnce(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("ScheduleOnce message received")
-	err := r.ParseForm()
+	body, err := ioutil.ReadAll(r.Body)
+	err = r.ParseForm()
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -30,7 +31,6 @@ func ScheduleOnce(w http.ResponseWriter, r *http.Request) {
 		defer f.Close()
 
 		log.SetOutput(f)
-		body, err := ioutil.ReadAll(r.Body)
 		log.Println(string(body))
 	}
 	w.WriteHeader(http.StatusOK)
