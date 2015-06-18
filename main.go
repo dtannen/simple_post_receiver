@@ -9,6 +9,12 @@ import (
 	"strings"
 )
 
+const (
+	PORT = ":8081"
+	PRIV_KEY = "./private_key"
+	PUBLIC_KEY = "./public_key"
+)
+
 func ScheduleOnce(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("ScheduleOnce message received")
 	body, err := ioutil.ReadAll(r.Body)
@@ -40,5 +46,6 @@ func ScheduleOnce(w http.ResponseWriter, r *http.Request) {
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/scheduleonce", ScheduleOnce)
-	http.ListenAndServe(":8081", mux)
+	// http.ListenAndServe(PORT, mux)
+	http.ListenAndServeTLS(PORT, PUBLIC_KEY, PRIV_KEY, mux)
 }
